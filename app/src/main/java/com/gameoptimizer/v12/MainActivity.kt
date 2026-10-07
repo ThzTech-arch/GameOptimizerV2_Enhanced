@@ -15,32 +15,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.optimizeButton.setOnClickListener {
-            updateStatus()
+            updateStatusPanel()
         }
 
-        updateStatus()
+        updateStatusPanel()
     }
 
-    private fun updateStatus() {
+    private fun updateStatusPanel() {
         val stats = performanceMonitor.readStats()
         val suggestions = performanceMonitor.getSuggestions(stats)
 
-        val statusText = buildString {
-            append("Memória disponível: ")
-            append(stats.availableRamMb)
-            append(" MB\n")
-            append("Temperatura: ")
-            append(stats.cpuTempC?.let { "${it}°C" } ?: "não disponível")
-            append("\nBateria: ")
-            append(stats.batteryPercent)
-            append("%")
-        }
-
-        binding.statusText.text = statusText
-        binding.summaryText.text = if (stats.isThermalSafe) {
-            "Dispositivo está em estado estável para jogos."
+        binding.ramValue.text = "${stats.availableRamMb} MB"
+        binding.temperatureValue.text = stats.cpuTempC?.let { "${it}°C" } ?: "N/D"
+        binding.batteryValue.text = "${stats.batteryPercent}%"
+        binding.statusText.text = if (stats.isThermalSafe) {
+            "Sistema estável"
         } else {
-            "Atenção: a temperatura está elevada. Reduza o brilho e evite uso excessivo."
+            "Atenção térmica"
+        }
+        binding.summaryText.text = if (stats.isThermalSafe) {
+            "Seu celular está em estado adequado para jogos e uso contínuo."
+        } else {
+            "A temperatura está elevada. Reduza brilho, evite apps pesados e pause sessões prolongadas."
         }
         binding.tipsText.text = suggestions.joinToString("\n• ", prefix = "• ")
     }

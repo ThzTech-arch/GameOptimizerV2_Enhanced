@@ -6,6 +6,8 @@ import android.os.BatteryManager
 import android.util.Log
 import java.io.File
 
+private const val SAFE_TEMP_C = 42f
+
 data class DeviceStats(
     val totalRamMb: Long,
     val availableRamMb: Long,
@@ -35,24 +37,24 @@ class PerformanceMonitor(private val context: Context) {
     fun getSuggestions(stats: DeviceStats): List<String> {
         val suggestions = mutableListOf<String>()
 
-        if (stats.availableRamMb < 512) {
+        if (stats.availableRamMb < 512L) {
             suggestions += "Feche apps em segundo plano para liberar memória."
         }
 
-        if (stats.cpuTempC != null && stats.cpuTempC > 42f) {
-            suggestions += "A temperatura está alta; reduza brilho e evite tarefas pesadas."
+        if (stats.cpuTempC != null && stats.cpuTempC > SAFE_TEMP_C) {
+            suggestions += "A temperatura está acima do ideal; reduza brilho e evite uso pesado."
         }
 
-        if (stats.batteryPercent < 20) {
-            suggestions += "A bateria está baixa. Ative economia de energia para manter o dispositivo estável."
+        if (stats.batteryPercent < 25) {
+            suggestions += "A bateria está baixa. Ative economia de energia e reduza o brilho."
         }
 
-        if (stats.isThermalSafe && stats.availableRamMb >= 512) {
-            suggestions += "O aparelho está em estado estável para jogos."
+        if (stats.isThermalSafe && stats.availableRamMb >= 512L) {
+            suggestions += "O dispositivo está estável para jogos."
         }
 
         if (suggestions.isEmpty()) {
-            suggestions += "Tudo parece estável; continue em um uso equilibrado."
+            suggestions += "Tudo parece estável; use o celular de forma equilibrada."
         }
 
         return suggestions
@@ -77,7 +79,7 @@ class PerformanceMonitor(private val context: Context) {
             val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
             batteryManager?.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) ?: 0
         } catch (e: Exception) {
-            Log.w("PerformanceMonitor", "Não foi possível obter percentual da bateria", e)
+            Log.w("PerformanceMonitor", "Não foi possível obter a bateria", e)
             0
         }
     }
@@ -96,11 +98,7 @@ class PerformanceMonitor(private val context: Context) {
 
             return try {
                 val raw = file.readText().trim()
-                if (raw.isNotEmpty()) {
-                    raw.toFloat() / 1000f
-                } else {
-                    null
-                }
+                if (raw.isNotEmpty()) raw.toFloat() / 1000f else null
             } catch (e: Exception) {
                 Log.w("PerformanceMonitor", "Falha ao ler temperatura em $path", e)
                 null

@@ -2,10 +2,7 @@
 <resources>
     <string name="app_name">GameOptimizer V2</string>
     <string name="status_checking">Verificando desempenho…</string>
-    <string name="optimize_game">Otimizador de jogo</string>
     <string name="safe_app">Aplicativo seguro para melhorar a experiência de jogo</string>
-    <string name="temperature_label">Temperatura</string>
-    <string name="memory_label">Memória</string>
-    <string name="battery_label">Bateria</string>
+    <string name="optimize_game">Atualizar análise</string>
     <string name="safe_actions">Ações seguras</string>
 </resources>
