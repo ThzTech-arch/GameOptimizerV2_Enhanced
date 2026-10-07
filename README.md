@@ -1,30 +1,24 @@
-# GameOptimizer V2
+# GameOptimizer V2 Premium
 
-Aplicativo Android seguro para monitorar desempenho e sugerir otimizações para jogos, sem mexer em configurações sensíveis do sistema.
+Aplicativo Android seguro para monitorar e orientar o desempenho de jogos, sem mexer em ações sensíveis do sistema.
 
-## O que o app faz
-- monitora memória RAM disponível
-- verifica temperatura da CPU quando disponível
-- lê nível da bateria
-- mostra recomendações seguras para melhorar a experiência de jogo
-- evita ações destrutivas ou invasivas no dispositivo
+## O que o app oferece
+- painel premium de RAM, temperatura e bateria
+- análise segura do estado do celular
+- sugestões personalizadas para melhorar a experiência de jogo
+- botão de modo jogo com proteção leve e não invasiva
+- design dark mode moderno
 
-## Estrutura do projeto
-- `app/src/main/java/com/gameoptimizer/v12/MainActivity.kt`
-- `app/src/main/java/com/gameoptimizer/v12/PerformanceMonitor.kt`
-- `app/src/main/res/layout/activity_main.xml`
-- `app/src/main/AndroidManifest.xml`
+## Segurança da solução
+- não configura privilégios do sistema
+- não tenta alterar arquivos do sistema
+- não força encerramento de processos críticos
+- apenas mede e recomenda ações ao usuário
 
 ## Como compilar
 1. Abra o projeto em Android Studio.
 2. Sincronize com Gradle.
-3. Execute em emulador ou dispositivo Android.
-
-## Regras de segurança
-- não altera arquivos do sistema
-- não usa permissões perigosas
-- não força encerramento de processos do sistema
-- apenas mede e aconselha o usuário
+3. Execute em emulador ou aparelho Android.
 
 ## Observação
-Este é um projeto seguro e funcional como base para um app de otimização de jogos, com foco em estabilidade e respeito ao hardware do celular.
+Essa versão foi pensada como uma base premium para um otimizador de jogos, com foco em estabilidade, uso seguro e respeito ao hardware do dispositivo.

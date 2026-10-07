@@ -6,15 +6,33 @@ import android.os.BatteryManager
 import android.util.Log
 import java.io.File
 
-private const val SAFE_TEMP_C = 42f
+enum class DeviceHealthLevel {
+    STABLE,
+    CAUTION,
+    CRITICAL
+}
 
 data class DeviceStats(
     val totalRamMb: Long,
     val availableRamMb: Long,
     val cpuTempC: Float?,
     val batteryPercent: Int,
-    val isThermalSafe: Boolean
-)
+    val healthLevel: DeviceHealthLevel
+) {
+    val healthLabel: String
+        get() = when (healthLevel) {
+            DeviceHealthLevel.STABLE -> "Sistema estável"
+            DeviceHealthLevel.CAUTION -> "Atenção moderada"
+            DeviceHealthLevel.CRITICAL -> "Atenção crítica"
+        }
+
+    val healthMessage: String
+        get() = when (healthLevel) {
+            DeviceHealthLevel.STABLE -> "Seu celular está em estado adequado para jogos e uso contínuo."
+            DeviceHealthLevel.CAUTION -> "Há sinais de aquecimento ou baixa memória, mas ainda é possível manter um uso seguro."
+            DeviceHealthLevel.CRITICAL -> "Temperatura ou bateria estão em nível crítico. Reduza carga e interrompa sessões longas."
+        }
+}
 
 class PerformanceMonitor(private val context: Context) {
 
@@ -23,14 +41,19 @@ class PerformanceMonitor(private val context: Context) {
         val availableRamMb = getAvailableRamMb()
         val cpuTemp = readCpuTemperature()
         val batteryPercent = getBatteryPercent()
-        val isThermalSafe = (cpuTemp ?: 39f) < 45f
+
+        val healthLevel = when {
+            (cpuTemp != null && cpuTemp >= 47f) || batteryPercent <= 10 -> DeviceHealthLevel.CRITICAL
+            (cpuTemp != null && cpuTemp >= 42f) || availableRamMb < 512L || batteryPercent < 25 -> DeviceHealthLevel.CAUTION
+            else -> DeviceHealthLevel.STABLE
+        }
 
         return DeviceStats(
             totalRamMb = totalRamMb,
             availableRamMb = availableRamMb,
             cpuTempC = cpuTemp,
             batteryPercent = batteryPercent,
-            isThermalSafe = isThermalSafe
+            healthLevel = healthLevel
         )
     }
 
@@ -41,20 +64,20 @@ class PerformanceMonitor(private val context: Context) {
             suggestions += "Feche apps em segundo plano para liberar memória."
         }
 
-        if (stats.cpuTempC != null && stats.cpuTempC > SAFE_TEMP_C) {
-            suggestions += "A temperatura está acima do ideal; reduza brilho e evite uso pesado."
+        if (stats.cpuTempC != null && stats.cpuTempC >= 42f) {
+            suggestions += "Reduza brilho e encerre sessões longas para controlar o calor."
         }
 
         if (stats.batteryPercent < 25) {
-            suggestions += "A bateria está baixa. Ative economia de energia e reduza o brilho."
+            suggestions += "Ative economia de energia e reduza notificações e brilho."
         }
 
-        if (stats.isThermalSafe && stats.availableRamMb >= 512L) {
-            suggestions += "O dispositivo está estável para jogos."
+        if (stats.healthLevel == DeviceHealthLevel.STABLE) {
+            suggestions += "O aparelho está pronto para jogos com uso equilibrado."
         }
 
         if (suggestions.isEmpty()) {
-            suggestions += "Tudo parece estável; use o celular de forma equilibrada."
+            suggestions += "Seu dispositivo está em equilíbrio; mantenha o uso controlado."
         }
 
         return suggestions

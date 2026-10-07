@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dark"
@@ -14,7 +15,7 @@
         android:textColor="@color/text_primary"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/subtitleText"
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="@string/safe_app"
         android:textColor="@color/text_secondary"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:layout_marginBottom="18dp" />
 
     <LinearLayout
@@ -36,10 +37,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@color/card_dark"
             android:orientation="vertical"
-            android:background="@color/panel_dark"
-            android:padding="14dp"
-            android:layout_marginEnd="8dp">
+            android:padding="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,15 +63,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@color/card_dark"
             android:orientation="vertical"
-            android:background="@color/panel_dark"
-            android:padding="14dp"
-            android:layout_marginEnd="8dp">
+            android:padding="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Temp"
+                android:text="TEMP"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp" />
 
@@ -88,14 +89,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/card_dark"
             android:orientation="vertical"
-            android:background="@color/panel_dark"
             android:padding="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bateria"
+                android:text="BATERIA"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp" />
 
@@ -113,7 +114,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/panel_dark"
+        android:background="@color/card_dark"
         android:orientation="vertical"
         android:padding="18dp"
         android:layout_marginBottom="18dp">
@@ -124,9 +125,9 @@
             android:layout_height="wrap_content"
             android:text="Sistema estável"
             android:textColor="@color/accent_green"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="6dp" />
 
         <TextView
             android:id="@+id/summaryText"
@@ -137,19 +138,34 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/optimizeButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/optimize_game"
-        android:layout_marginBottom="18dp" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="18dp">
+
+        <Button
+            android:id="@+id/optimizeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Atualizar análise"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/modeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Modo jogo" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/safeActionsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/safe_actions"
-        android:textColor="@color/accent_blue"
+        android:textColor="@color/accent_cyan"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginBottom="8dp" />
